@@ -5,9 +5,14 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/arseto/go-clean-arch/context/greeting"
-	"github.com/arseto/go-clean-arch/transport/httphandler"
-	greetinghttp "github.com/arseto/go-clean-arch/transport/httphandler/greeting"
+	"github.com/GoJogja/go-clean-arch/context/addperson"
+	"github.com/GoJogja/go-clean-arch/context/greeting"
+	"github.com/GoJogja/go-clean-arch/context/listperson"
+	"github.com/GoJogja/go-clean-arch/store"
+	"github.com/GoJogja/go-clean-arch/transport/httphandler"
+	addpersonhttp "github.com/GoJogja/go-clean-arch/transport/httphandler/addperson"
+	greetinghttp "github.com/GoJogja/go-clean-arch/transport/httphandler/greeting"
+	listpersonhttp "github.com/GoJogja/go-clean-arch/transport/httphandler/listperson"
 	"github.com/gorilla/mux"
 )
 
@@ -18,8 +23,18 @@ func main() {
 	guc := greeting.NewGreetingUseCase()
 	gh := greetinghttp.NewGreetingHandler(guc, muxrr)
 
+	par := store.NewPersonArrayStore()
+
+	apuc := addperson.NewAddPersonUseCase(par)
+	aph := addpersonhttp.NewHandler(apuc, muxrr)
+
+	lpuc := listperson.NewListPersonUseCase(par)
+	lph := listpersonhttp.NewHandler(lpuc, muxrr)
+
 	router := mux.NewRouter()
-	router.HandleFunc("/greet/{name}", gh.Greet)
+	router.HandleFunc("/greet/{name}", gh.Greet).Methods("GET")
+	router.HandleFunc("/person/add", aph.Handle).Methods("POST")
+	router.HandleFunc("/person/list", lph.Handle).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", logger(router)))
 }

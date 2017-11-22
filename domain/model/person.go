@@ -1,17 +1,33 @@
 package model
 
-import "strings"
+import (
+	"strings"
+
+	uuid "github.com/satori/go.uuid"
+)
 
 type Person struct {
-	name string
+	ID    uuid.UUID `json:"id"`
+	Name  string    `json:"name"`
+	Phone string    `json:"phone"`
 }
 
-func NewPerson(name string) *Person {
+func NewPerson(name, phone string) *Person {
 	return &Person{
+		uuid.NewV4(),
 		strings.Title(strings.TrimSpace(name)),
+		phone,
 	}
 }
 
-func (h *Person) GetName() string {
-	return h.name
+func (p *Person) GetID() uuid.UUID {
+	return p.ID
+}
+
+func (p *Person) GetName() string {
+	return p.Name
+}
+
+func (p *Person) GetPhone() string {
+	return p.Phone
 }

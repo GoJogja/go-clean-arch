@@ -1,6 +1,7 @@
 package httphandler
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -14,4 +15,10 @@ func NewMuxRequestReader() RequestReader {
 
 func (rr *muxRequestReader) GetRouteParam(r *http.Request, name string) string {
 	return mux.Vars(r)[name]
+}
+
+func (rr *muxRequestReader) GetJsonData(r *http.Request, data interface{}) (err error) {
+	err = json.NewDecoder(r.Body).Decode(data)
+	//TODO add error response message if error here
+	return
 }

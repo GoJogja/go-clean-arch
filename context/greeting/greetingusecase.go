@@ -3,7 +3,7 @@ package greeting
 import (
 	"fmt"
 
-	"github.com/arseto/go-clean-arch/domain/model"
+	"github.com/GoJogja/go-clean-arch/domain/model"
 )
 
 type GreetingUseCase interface {
@@ -21,7 +21,10 @@ func NewGreetingUseCase() GreetingUseCase {
 }
 
 func (h *greetingUseCase) GetGreeting(req GreetingRequest) GreetingResponse {
-	person := model.NewPerson(req.GetName())
+	person := model.NewPerson(
+		req.GetName(),
+		"TODO",
+	)
 	message := fmt.Sprintf(
 		"Hello %s!",
 		person.GetName(),

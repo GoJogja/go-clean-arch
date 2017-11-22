@@ -1,8 +1,8 @@
 package greeting
 
 import (
-	"github.com/arseto/go-clean-arch/context/greeting"
-	"github.com/arseto/go-clean-arch/transport/httphandler"
+	"github.com/GoJogja/go-clean-arch/context/greeting"
+	"github.com/GoJogja/go-clean-arch/transport/httphandler"
 )
 
 type jsonGreeting struct {
