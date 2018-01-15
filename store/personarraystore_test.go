@@ -4,9 +4,42 @@ import (
 	"testing"
 
 	"github.com/GoJogja/go-clean-arch/domain/model"
+	"github.com/arseto/assertion"
 	"github.com/icrowley/fake"
 	uuid "github.com/satori/go.uuid"
 )
+
+//type personArrayStoreTester struct {
+//assert assertion.Assert
+//}
+
+//func TestPersonArrayStore(t *testing.T) {
+//tester := personArrayStoreTester{assertion.NewAssert(t)}
+//tester.testCreate()
+//}
+
+//func (tester *personArrayStoreTester) testCreate() {
+//store := &personArrayStore{
+//make(map[uuid.UUID]*model.Person),
+//}
+
+//person := model.NewPerson(
+//fake.FirstName(),
+//fake.Phone(),
+//)
+
+//success := store.Create(person)
+
+//if !success {
+//t.Error("Failed to create person")
+//}
+
+//data := store.personStore[person.GetID()]
+
+//tester.assert.Equals(data.ID, person.ID)
+//tester.assert.Equals(data.Name, person.Name)
+//tester.assert.Equals(data.Phone, person.Phone)
+//}
 
 func TestCreatePersonArrayStore(t *testing.T) {
 	store := &personArrayStore{
@@ -26,17 +59,11 @@ func TestCreatePersonArrayStore(t *testing.T) {
 
 	data := store.personStore[person.GetID()]
 
-	if data.ID != person.ID {
-		t.Errorf("Expected ID: %s, found %s", person.ID, data.ID)
-	}
+	assert := assertion.NewAssert(t)
 
-	if data.Name != person.Name {
-		t.Errorf("Expected Name: %s, found %s", person.Name, data.Name)
-	}
-
-	if data.Phone != person.Phone {
-		t.Errorf("Expected Phone: %s, found %s", person.Phone, data.Phone)
-	}
+	assert.Equals(data.ID, person.ID)
+	assert.Equals(data.Name, person.Name)
+	assert.Equals(data.Phone, person.Phone)
 }
 
 func TestAllPersonArrayStore(t *testing.T) {
@@ -61,15 +88,9 @@ func TestAllPersonArrayStore(t *testing.T) {
 		t.Error("Expected item count mismatch")
 	}
 
-	if list[0].ID != person.ID {
-		t.Errorf("Expected ID: %s, found %s", person.ID, list[0].ID)
-	}
+	assert := assertion.NewAssert(t)
 
-	if list[0].Name != person.Name {
-		t.Errorf("Expected Name: %s, found %s", person.Name, list[0].Name)
-	}
-
-	if list[0].Phone != person.Phone {
-		t.Errorf("Expected Phone: %s, found %s", person.Phone, list[0].Phone)
-	}
+	assert.Equals(list[0].ID, person.ID)
+	assert.Equals(list[0].Name, person.Name)
+	assert.Equals(list[0].Phone, person.Phone)
 }
